@@ -31,7 +31,7 @@ public class Kafe11 {
     public static int hitungTotalHarga(int pilihanMenu, int banyakItem, String kodePromo) {
         int[] hargaItems = {15000, 20000, 22000, 12000, 10000, 18000};
         int hargaTotal = hargaItems[pilihanMenu - 1] * banyakItem;
-    
+
         if (kodePromo.equals("DISKON50")) {
             hargaTotal = hargaTotal / 2; // Diskon 50%
         } else if (kodePromo.equals("DISKON30")) {
@@ -39,23 +39,40 @@ public class Kafe11 {
         } else {
             System.out.println("Kode promo tidak valid. Tidak ada pengurangan harga.");
         }
-    
+
         return hargaTotal;
     }
-    
 
     public static void main(String[] args) {
         Menu("Andi", true, "DISKON50");
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("\nMasukkan nomor menu yang ingin Anda pesan: ");
-        int pilihanMenu = sc.nextInt();
-        System.out.print("Masukkan jumlah item yang ingin dipesan: ");
-        int banyakItem = sc.nextInt();
+        int totalKeseluruhan = 0;
+        boolean lanjutkanPesanan = true;
 
-        int totalHarga = hitungTotalHarga(pilihanMenu, banyakItem, "DISKON50");
+        while (lanjutkanPesanan) {
+            System.out.print("\nMasukkan nomor menu yang ingin Anda pesan: ");
+            int pilihanMenu = sc.nextInt();
+            System.out.print("Masukkan jumlah item yang ingin dipesan: ");
+            int banyakItem = sc.nextInt();
 
-        System.out.println("Total harga untuk pesanan Anda: Rp " + totalHarga);
+            System.out.print("Masukkan kode promo (jika ada): ");
+            sc.nextLine(); // Konsumsi newline
+            String kodePromo = sc.nextLine();
+
+            int totalHarga = hitungTotalHarga(pilihanMenu, banyakItem, kodePromo);
+            totalKeseluruhan += totalHarga;
+
+            System.out.println("Total harga untuk pesanan ini: Rp " + totalHarga);
+
+            System.out.print("Apakah Anda ingin memesan lagi? (y/n): ");
+            String jawaban = sc.nextLine();
+            if (jawaban.equalsIgnoreCase("n")) {
+                lanjutkanPesanan = false;
+            }
+        }
+
+        System.out.println("\nTotal keseluruhan pesanan Anda: Rp " + totalKeseluruhan);
     }
 }
